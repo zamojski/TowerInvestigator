@@ -58,5 +58,6 @@ dependencies {
 def getMyApiKey(String property) {
     Properties properties = new Properties()
     properties.load(new FileInputStream("app/properties/config.properties"))
+    assert properties
     return properties.getProperty(property)
 }
