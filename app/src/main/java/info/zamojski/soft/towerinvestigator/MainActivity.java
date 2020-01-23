@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         MainActivityPermissionsDispatcher.setupPhoneStateListenerWithPermissionCheck(this);
     }
 
-    @NeedsPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+    @NeedsPermission({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE})
     void setupPhoneStateListener() {
         mPhoneStateListener = new PhoneStateListener() {
             @SuppressLint("MissingPermission")
@@ -107,17 +107,17 @@ public class MainActivity extends AppCompatActivity {
         mTelephonyManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CELL_LOCATION | PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
     }
 
-    @OnShowRationale(Manifest.permission.ACCESS_COARSE_LOCATION)
+    @OnShowRationale({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE})
     void onStartExportShowRationale(PermissionRequest request) {
         onShowRationale(request, R.string.permission_rationale_message);
     }
 
-    @OnPermissionDenied(Manifest.permission.ACCESS_COARSE_LOCATION)
+    @OnPermissionDenied({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE})
     void onStartExportPermissionDenied() {
         onPermissionDenied(R.string.permission_denied_message);
     }
 
-    @OnNeverAskAgain(Manifest.permission.ACCESS_COARSE_LOCATION)
+    @OnNeverAskAgain({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE})
     void onStartExportNeverAskAgain() {
         onNeverAskAgain(R.string.permission_never_ask_again_message);
     }
