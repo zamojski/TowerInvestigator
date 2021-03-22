@@ -22,15 +22,18 @@ import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import info.zamojski.soft.towerinvestigator.utils.DeviceUtils;
 import info.zamojski.soft.towerinvestigator.utils.PermissionUtils;
 import info.zamojski.soft.towerinvestigator.utils.ReflectionUtils;
+import info.zamojski.soft.towerinvestigator.utils.Tuple;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private SignalStrength mSignalStrength;
     private String mInvestigationResult = "";
     private boolean mLoaded = false;
+    private Tuple<Method, Boolean> getNeighboringCellInfoMethod;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 if (mLoaded)
                     return;
                 mCellLocation = cellLocation;
-                mNeighboringCellInfos = mTelephonyManager.getNeighboringCellInfo();
+                mNeighboringCellInfos = getNeighboringCellInfo(mTelephonyManager);
                 load();
             }
 
@@ -181,6 +185,23 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_SUBJECT, "Tower Investigator report");
         intent.putExtra(Intent.EXTRA_TEXT, mInvestigationResult);
         startActivity(Intent.createChooser(intent, getString(R.string.send_results)));
+    }
+
+    private List<NeighboringCellInfo> getNeighboringCellInfo(TelephonyManager telephonyManager) {
+        try {
+            if (getNeighboringCellInfoMethod == null) {
+                getNeighboringCellInfoMethod = new Tuple<>(TelephonyManager.class.getMethod("getNeighboringCellInfo"), Boolean.TRUE);
+            }
+            if (getNeighboringCellInfoMethod.getItem2() == Boolean.TRUE) {
+                return (List<NeighboringCellInfo>) getNeighboringCellInfoMethod.getItem1().invoke(telephonyManager);
+            }
+        } catch (NoSuchMethodException ex) {
+            getNeighboringCellInfoMethod = new Tuple<>(null, Boolean.FALSE);
+            Log.w(TAG, "getNeighboringCellInfo(): Method not found", ex);
+        } catch (Exception ex) {
+            Log.w(TAG, "getNeighboringCellInfo(): Cannot get neighboring cell info", ex);
+        }
+        return null;
     }
 
     private class ReflectionTask extends AsyncTask<Void, Void, String> {
