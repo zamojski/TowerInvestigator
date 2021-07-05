@@ -12,10 +12,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import androidx.annotation.StringRes;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.telephony.CellLocation;
 import android.telephony.NeighboringCellInfo;
 import android.telephony.PhoneStateListener;
@@ -211,7 +215,8 @@ public class MainActivity extends AppCompatActivity {
             String telephonyManagerInfo = ReflectionUtils.dumpClass(TelephonyManager.class, MainActivity.this.mTelephonyManager);
             String cellLocationInfo = ReflectionUtils.dumpClass(MainActivity.this.mCellLocation.getClass(), MainActivity.this.mCellLocation);
             String cellSignalStrengthInfo = ReflectionUtils.dumpClass(SignalStrength.class, MainActivity.this.mSignalStrength);
-            String neighboringCellInfo = ReflectionUtils.dumpClasses(NeighboringCellInfo.class, MainActivity.this.mNeighboringCellInfos.toArray());
+            Object[] mNeighboringCellInfos = MainActivity.this.mNeighboringCellInfos != null ? MainActivity.this.mNeighboringCellInfos.toArray() : null;
+            String neighboringCellInfo = ReflectionUtils.dumpClasses(NeighboringCellInfo.class, mNeighboringCellInfos);
 
             return deviceInfo
                     + cellLocationInfo
