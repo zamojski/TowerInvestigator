@@ -66,7 +66,7 @@ public class ReflectionUtils {
             } catch (Exception ex) {
                 String message = (ex.getMessage() == null ? ex.getClass().getSimpleName() : ex.getMessage());
                 sb.append("{exception = " + message + "}");
-                Log.e(TAG, "dumpFields(): Could not get field value '" + field.getName() + "'.", ex);
+                Log.w(TAG, "dumpFields(): Could not get field value '" + field.getName() + "'.", ex);
             }
             sb.append("\n");
         }
@@ -101,7 +101,7 @@ public class ReflectionUtils {
                 } catch (Exception ex) {
                     String message = (ex.getMessage() == null ? ex.getClass().getSimpleName() : ex.getMessage());
                     sb.append("{exception = " + message + "}");
-                    Log.e(TAG, "dumpMethods(): Could not get method value '" + method.getName() + "'.", ex);
+                    Log.w(TAG, "dumpMethods(): Could not get method value '" + method.getName() + "'.", ex);
                 }
                 sb.append("\n");
             } else if (parameters.length == 1 && parameters[0].equals(int.class)) {
@@ -112,7 +112,7 @@ public class ReflectionUtils {
                     } catch (Exception ex) {
                         String message = (ex.getMessage() == null ? ex.getClass().getSimpleName() : ex.getMessage());
                         sb.append("{exception = " + message + "}");
-                        Log.e(TAG, "dumpMethods(): Could not get method value '" + method.getName() + "' for parameter '" + i + "'.", ex);
+                        Log.w(TAG, "dumpMethods(): Could not get method value '" + method.getName() + "' for parameter '" + i + "'.", ex);
                     }
                     sb.append("\n");
                 }
