@@ -5,7 +5,7 @@ The app is designed to help me implement dual SIM support for devices with API l
 At this moment the app is not available as a package.
 
 ## Building
-This project is build using Android Studio 4.1.2.
+This project is build using Android Studio 4.1.3.
 To build your own apk go to "[app/properties](app/properties)" and:
  1. Copy file named "[rename-to-config.properties](app/properties/rename-to-config.properties)" as "config.properties".
  2. Put your confidential data inside.
